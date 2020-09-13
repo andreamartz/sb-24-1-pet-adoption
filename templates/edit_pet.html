@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Pet Info{% endblock %}
+
+{% block content %}
+<h1 class="text-center">{{ pet.name }}</h1>
+<h2 class="text-center">Current Information</h2>
+<p class="text-center">Name: {{ pet.name }}</p>
+<p class=text-center>Species: {{ pet.species }}</p>
+{% if pet.age %}
+<p class="text-center">Age: {{ pet.age }}</p>
+{% endif %}
+{% if pet.photo_url %}
+<div class="text-center">
+  <img src="{{ pet.photo_url }}" alt="Photo of {{ pet.name }}">
+</div>
+{% endif %}
+
+<h2 class="text-center mt-4">Update Pet Information</h2>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <form action="" method="POST">
+      <!-- add type=hidden form fields -->
+      <!-- Put the CSRF token into the form. -->
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        {{ form.photo_url.label }} {% if form.photo_url.flags.required %}<span class="required">*</span>{% endif %}
+        {{ form.photo_url(class_="form-control") }}
+        <small class="form-text text-danger mb-1">
+          {% if form.photo_url.errors %}
+          <p class="mb-0">{{ form.photo_url.errors[0] }}</p>
+          {% endif %}
+        </small>
+      </div>
+      <div class="form-group">
+        {{ form.notes.label }} {% if form.notes.flags.required %}<span class="required">*</span>{% endif %}
+        {{ form.notes(class_="form-control") }}
+        <small class="form-check text-danger mb-1">
+          {% if form.notes.errors %}
+          <p class="mb-0">{{ form.notes.errors[0] }}</p>
+          {% endif %}
+        </small>
+      </div>
+      <div class="form-check">
+        {{ form.available(class_="form-check-input") }}
+        {{ form.available.label(class_="form-check-label") }} {% if form.available.flags.required %}<span
+          class="required">*</span>{% endif %}
+
+        <small class="form-text text-danger mb-1">
+          {% if form.available.errors %}
+          <p class="mb-0">{{ form.available.errors[0] }}</p>
+          {% endif %}
+        </small>
+      </div>
+      <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
