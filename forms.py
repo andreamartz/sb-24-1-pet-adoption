@@ -21,3 +21,18 @@ class PetForm(FlaskForm):
         NumberRange(min=0, max=30, message="Age must be a whole number between 0 and 30.")])
     notes = StringField("Comments", validators=[Optional(), Length(min=10)])
     available = BooleanField("Available")
+
+
+class EditPetForm(FlaskForm):
+    """Form for editing an existing pet."""
+
+    photo_url = StringField(
+        "Photo URL",
+        validators=[Optional(), URL(require_tld=True, message="URL must be valid.")])
+
+    notes = TextAreaField(
+        "Comments",
+        validators=[Optional(), Length(min=10)],
+    )
+
+    available = BooleanField("Available?")
