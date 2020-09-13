@@ -12,3 +12,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 debug = DebugToolbarExtension(app)
 
 connect_db(app)
+
+
+@app.route('/')
+def show_pets():
+    """Show available pets"""
+
+    pets = Pet.query.all()
+
+    return render_template('index.html', pets=pets)
+
