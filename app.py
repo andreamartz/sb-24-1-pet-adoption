@@ -51,3 +51,27 @@ def add_pet():
     else:
         return render_template("pet_add_form.html", form=form)
 
+
+@app.route('/<int:pet_id>', methods=["GET", "POST"])
+def edit_pet(pet_id):
+    """Pet edit form; handle edits"""
+
+    # get the pet instance
+    pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=pet)
+
+    # check if it's a post request AND validate the token
+    if form.validate_on_submit():
+        # Because of this validate_on_submit(), we can get the data directly from the form object
+
+        pet.photo_url = form.photo_url.data
+        pet.notes = form.notes.data
+        pet.available = form.available.data
+
+        db.session.commit()
+
+        flash(f"Updated information for pet: {pet.name}")
+        return redirect("/")
+
+    else:
+        return render_template("edit_pet.html", form=form, pet=pet)
