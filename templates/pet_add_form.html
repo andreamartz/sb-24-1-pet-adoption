@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Pet{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Add New Pet</h1>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <form action="" method="POST">
+      <!-- add type=hidden form fields -->
+      <!-- We need form.hidden_tag(), because that is how the CSRF token is put into the form. -->
+      {{ form.hidden_tag() }}
+
+      <!-- Iterate over the form fields -->
+      {% for field in form
+        if field.widget.input_type != 'hidden' and field.short_name != 'available' %}
+      <div class="form-group">
+        {{ field.label }} {% if field.flags.required %}<span class="required">*</span>{% endif %}
+        {{ field(class_="form-control") }}
+        <small class="form-text text-danger mb-1">
+          {% if field.errors %}
+          <p class="mb-0">{{ field.errors[0] }}</p>
+          {% endif %}
+        </small>
+      </div>
+      {% endfor %}
+      <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
